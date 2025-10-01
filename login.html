@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Kamidengar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#E0F7FA',
+                        'brand-primary': '#00BFFF',
+                        'brand-accent': '#F72585',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-bg">
+
+    <div class="flex min-h-screen">
+        <div class="hidden md:flex w-1/2 bg-brand-primary items-center justify-center p-12">
+            <div class="text-white text-center">
+                <img src="assets/images/hero-illustration.svg" alt="Illustration" class="w-full max-w-sm mx-auto">
+                <h1 class="text-3xl font-bold mt-8">Your Safe Space to Heal</h1>
+                <p class="mt-2 opacity-80">Join a community that listens and supports you on your journey to wellness.</p>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center bg-white p-8 md:p-12">
+            <div class="w-full max-w-md">
+                <a href="index.html" class="inline-block mb-8">
+                    <img src="assets/logo/logo-colour-text-24.svg" alt="Kamidengar Logo" class="h-8">
+                </a>
+
+                <h2 class="text-3xl font-bold text-gray-800">Welcome Back!</h2>
+                <p class="text-gray-500 mt-2 mb-6">Log in to continue your journey with us.</p>
+
+                <button class="w-full flex justify-center items-center gap-3 border border-gray-300 rounded-lg py-3 font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="m24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A8 8 0 0 1 24 36c-5.222 0-9.618-3.66-11.283-8.591l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.574l6.19 5.238C42.052 35.636 44 30.138 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+                    Log in with Google
+                </button>
+
+                <div class="flex items-center my-6">
+                    <hr class="flex-grow border-gray-200">
+                    <span class="mx-4 text-sm font-medium text-gray-400">OR</span>
+                    <hr class="flex-grow border-gray-200">
+                </div>
+                
+                <form id="login-form" action="#" novalidate>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="email" class="font-medium text-gray-700 sr-only">Email</label>
+                            <input type="email" name="email" id="email" placeholder="Email Address" class="w-full bg-gray-50 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-primary">
+                            <p id="email-error" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email address.</p>
+                        </div>
+                        <div>
+                            <label for="password" class="font-medium text-gray-700 sr-only">Password</label>
+                            <input type="password" name="password" id="password" placeholder="Password" class="w-full bg-gray-50 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-primary">
+                            <p id="password-error" class="text-red-500 text-xs mt-1 hidden">Password cannot be empty.</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember" class="h-4 w-4 rounded border-gray-300 text-brand-primary focus:ring-brand-primary">
+                            <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
+                        </div>
+                        <a href="#" class="text-sm font-medium text-brand-primary hover:underline">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="w-full mt-6 bg-brand-accent text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity">Log In</button>
+                </form>
+
+                <p class="text-center text-sm text-gray-600 mt-8">
+                    Don't have an account? <a href="register.html" class="font-bold text-brand-primary hover:underline">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('login-form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+
+            function showError(input, errorElement, message) {
+                input.classList.add('border-red-500');
+                errorElement.textContent = message;
+                errorElement.classList.remove('hidden');
+            }
+
+            function hideError(input, errorElement) {
+                input.classList.remove('border-red-500');
+                errorElement.classList.add('hidden');
+            }
+
+            function validateEmail() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value)) {
+                    showError(emailInput, emailError, 'Please enter a valid email address.');
+                    return false;
+                }
+                hideError(emailInput, emailError);
+                return true;
+            }
+
+            function validatePassword() {
+                if (passwordInput.value.trim() === '') {
+                    showError(passwordInput, passwordError, 'Password cannot be empty.');
+                    return false;
+                }
+                hideError(passwordInput, passwordError);
+                return true;
+            }
+
+            emailInput.addEventListener('blur', validateEmail);
+            passwordInput.addEventListener('blur', validatePassword);
+
+            form.addEventListener('submit', function(event) {
+                const isEmailValid = validateEmail();
+                const isPasswordValid = validatePassword();
+
+                if (!isEmailValid || !isPasswordValid) {
+                    event.preventDefault();
+                    console.log('Form submission prevented due to validation errors.');
+                } else {
+                    // Untuk simulasi, kita arahkan ke halaman dashboard setelah berhasil
+                    alert('Login successful! (Simulation)');
+                    window.location.href = 'dashboard.html';
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

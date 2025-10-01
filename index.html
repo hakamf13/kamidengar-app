@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamidengar - Your Safe Space</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Sembunyikan logo teks awal saat di-scroll */
+        .header-scrolled #logo-initial {
+            opacity: 0;
+        }
+        /* Tampilkan logo gambar berwarna saat di-scroll */
+        .header-scrolled #logo-scrolled {
+            opacity: 1;
+        }
+        /* Ubah warna link navigasi */
+        .header-scrolled #header-nav {
+            color: #4b5563; /* text-gray-600 */
+        }
+        /* Ubah style tombol Login */
+        .header-scrolled #login-btn {
+            color: #38bdf8; /* text-sky-400 */
+            border-color: #38bdf8; /* border-sky-400 */
+        }
+        /* Ubah style tombol Get Started */
+        .header-scrolled #get-started-btn {
+            background-color: #38bdf8; /* bg-sky-400 */
+            color: white;
+        }
+
+        #main-header, #header-logo, #header-nav, #login-btn, #get-started-btn {
+            transition: all 0.7s ease-in-out;
+        }   
+        #logo-scrolled, #logo-initial {
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+</head>
+</html>
+
+<body class="font-sans">
+
+    <!-- SECTION 1 -->
+    <div id="hero-section" class="relative min-h-screen w-full bg-gradient-to-br from-sky-500 via-blue-600 to-pink-600 text-white">
+
+        <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300">
+            <div class="container mx-auto flex justify-between items-center px-6 md:px-8 py-4 animate-on-scroll">
+                <a href="#" class="relative h-7 w-32"> 
+                    <img id="logo-initial" src="assets/logo/logo-1-text-24.svg" alt="Kamidengar Logo White" class="absolute top-0 left-0 h-auto w-auto transition-opacity duration-300 ease-in-out opacity-100">
+                    <img id="logo-scrolled" src="assets/logo/logo-colour-text-24.svg" alt="Kamidengar Logo Color" class="absolute top-0 left-0 h-full w-auto transition-opacity duration-300 ease-in-out opacity-0">
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <nav id="header-nav" class="flex items-center space-x-8 text-white">
+                        <a href="#" class="hover:underline">Business</a>
+                        <a href="#" class="hover:underline">Volunteer</a>
+                        <a href="#" class="hover:underline">Organization</a>
+                        <a href="find-therapist.html" class="hover:underline">Therapist</a>
+                        <a href="about.html" class="hover:underline">About</a>
+                        <a href="faq.html" class="hover:underline">FAQ</a>
+                        <a href="contact.html" class="hover:underline">Contact</a>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <a href="login.html" id="login-btn" class="border border-white text-white font-semibold px-5 py-2 rounded-full hover:bg-white/20">Login</a>
+                        <a href="find-therapist.html" id="get-started-btn" class="bg-white text-blue-600 font-semibold px-5 py-2 rounded-full hover:bg-gray-200">Get started</a>
+                    </div>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="hamburger-btn" class="text-white z-50 relative">
+                        <svg id="icon-open" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                        <svg id="icon-close" class="h-7 w-7 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+
+                <div id="mobile-menu" 
+                    class="absolute top-full left-0 w-full bg-white text-gray-800 shadow-lg p-6 
+                            opacity-0 -translate-y-4 pointer-events-none 
+                            transition-all duration-300 ease-in-out">
+                    
+                    <div class="flex flex-col space-y-5">
+                        <a href="#" class="hover:text-blue-600">Business</a>
+                        <a href="#" class="hover:text-blue-600">Volunteer</a>
+                        <a href="#" class="hover:text-blue-600">Organization</a>
+                        <a href="#" class="hover:text-blue-600">Therapist</a>
+                        <a href="#" class="hover:text-blue-600">About</a>
+                        <a href="#" class="hover:text-blue-600">FAQ</a>
+                        <a href="#" class="hover:text-blue-600">Contact</a>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-gray-200 space-y-4">
+                        <a href="login.html" id="login-btn" class="border border-white text-white font-semibold px-5 py-2 rounded-full hover:bg-white/20">Login</a>
+                        <a href="#" class="block w-full text-center bg-blue-600 text-white font-semibold px-5 py-3 rounded-full">Get Started</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </header>
+
+        <main class="min-h-screen flex items-center">
+            <div class="container mx-auto grid md:grid-cols-2 items-center gap-12 px-12 py-16 md:px-8 animate-on-scroll mt-20 mb-20">
+
+                <div class="text-center">
+                    
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                        Serenity, Always.
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl mb-8 opacity-90 max-w-lg mx-auto">
+                        Kamidengar is your safe space to share, grow, and rediscover your calm. Start your journey to better mental wellness today.
+                    </p>
+                    
+                    <a href="find-therapist.html" class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-full hover:bg-gray-200 inline-block">
+                        Start Your Journey
+                    </a>
+                </div>
+
+                <div class="mt-12 md:mt-0">
+                    <img src="assets/images/hero-1.svg" alt="Person meditating by the water" class="w-auto h-auto">
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- SECTION 2 -->
+    <section class="bg-white py-20 md:py-60 animate-on-scroll">
+        <div class="container mx-auto grid md:grid-cols-2 items-center gap-12 px-6 md:px-8">
+            
+            <div class="text-left">
+                <h2 class="text-4xl md:text-5xl font-bold leading-tight 
+                        bg-gradient-to-r from-sky-500 to-pink-600 bg-clip-text text-transparent">
+                    Connect with licensed and experienced therapists you can rely on.
+                </h2>
+                <p class="text-lg text-gray-600 mt-6 max-w-lg">
+                    Our platform provides access to a vast network of qualified therapists specializing in a wide array of mental health concerns, including anxiety, depression, relationship issues, and grief.
+                </p>
+                <a href="#" class="bg-pink-500 text-white font-semibold px-8 py-3 rounded-full hover:bg-pink-600 inline-block mt-8">
+                    Match With Your Therapist
+                </a>
+            </div>
+
+            <div class="relative min-h-[400px]">
+    
+                <img src="assets/therapist/thera.png" alt="Photo of a therapist" 
+                    class=" center absolute top-0  w-auto h-auto rounded-2xl object-cover z-10 
+                            transform hover:scale-105 transition-transform duration-300">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="bg-white py-20 md:py-28">
+
+        <div class="container mx-auto px-6 md:px-8">
+            
+            <h2 class="text-center text-5xl md:text-5xl font-bold text-gray-600 py-16 animate-on-scroll">
+                How it works
+            </h2>
+
+            <div class="mt-16 grid md:grid-cols-2 items-center gap-12 animate-on-scroll">
+                
+                <div>
+                    <img src="assets/how-it-works/how-1.png" alt="Illustration of finding a therapist match" class="w-45 h-auto max-w-lg mx-auto animate-on-scroll">
+                </div>
+
+                <div class="text-left animate-on-scroll">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
+                        Find The Best Therapist for You
+                    </h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-lg">
+                        Tell us your preferences, and we’ll match you with a qualified therapist from our extensive network that fits your specific needs.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-20 animate-on-scroll">
+                <img src="assets/icon/down-arrow.svg" alt="Scroll down" class="h-auto w-auto inline-block animate-bounce">
+            </div>
+
+            <div class="mt-16 grid md:grid-cols-2 items-center gap-12 animate-on-scroll">
+                
+                <div>
+                    <img src="assets/how-it-works/how-2.png" alt="Illustration of connecting comfortably" class="w-45 h-auto max-w-lg mx-auto animate-on-scroll">
+                </div>
+
+                <div class="text-left">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
+                        Connect Comfortably
+                    </h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-lg">
+                        Flexible communication, professional care. Connect via text, chat, audio, or video at your convenience, without compromising on quality.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center my-20 md:my-28 animate-on-scroll">
+                <img src="assets/icon/down-arrow.svg" alt="Scroll down" class="h-auto w-auto inline-block animate-bounce">
+            </div>
+
+            <div class="mt-16 grid md:grid-cols-2 items-center gap-12 animate-on-scroll">
+                
+                <div>
+                    <img src="assets/how-it-works/how-3.png" alt="Illustration of connecting comfortably" class="w-auto h-auto max-w-lg mx-auto">
+                </div>
+
+                <div class="text-left">
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
+                        Access Therapy Anytime
+                    </h3>
+                    <p class="mt-4 text-lg text-gray-600 max-w-lg">
+                        Stay connected with continuous support by messaging your therapist anytime. You also have the control to schedule live sessions conveniently, accessible from wherever you are, on any device
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="bg-white py-20 md:py-28 animate-on-scroll">
+        <div class="container mx-auto max-w-3xl px-6 md:px-8">
+            
+            <h2 class="text-center text-4xl md:text-5xl font-bold text-gray-800 pb-12 animate-on-scroll">
+                Frequently Asked Question
+            </h2>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                    <span>Who are the therapist?</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <p class="pb-4 text-gray-600">
+                        The answer to the question goes here. Our therapists are licensed professionals with extensive experience in various fields of mental health.
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                    <span>Who are the therapist?</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <p class="pb-4 text-gray-600">
+                        The answer to the question goes here. Our therapists are licensed professionals with extensive experience in various fields of mental health.
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                    <span>Who are the therapist?</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <p class="pb-4 text-gray-600">
+                        The answer to the question goes here. Our therapists are licensed professionals with extensive experience in various fields of mental health.
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                    <span>Who are the therapist?</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <p class="pb-4 text-gray-600">
+                        The answer to the question goes here. Our therapists are licensed professionals with extensive experience in various fields of mental health.
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                    <span>Who are the therapist?</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                    <p class="pb-4 text-gray-600">
+                        The answer to the question goes here. Our therapists are licensed professionals with extensive experience in various fields of mental health.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" class="text-pink-500 font-medium border-b-2 border-pink-500 hover:text-pink-600">
+                    More frequently asked question
+                </a>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#" class="bg-pink-500 text-white font-semibold px-8 py-3 rounded-full hover:bg-pink-600 inline-block">
+                    Get started
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-pink-600 text-white">
+        <div class="container mx-auto py-8 px-6 md:px-8">
+            
+            <div class="flex justify-between items-center">
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                    <a href="#" class="hover:underline">Home</a>
+                    <a href="#" class="hover:underline">Business</a>
+                    <a href="#" class="hover:underline">Volunteer</a>
+                    <a href="#" class="hover:underline">Organization</a>
+                    <a href="find-therapist.html" class="hover:underline">Therapist</a>
+                     <a href="about.html" class="hover:underline">About</a>
+                     <a href="faq.html" class="hover:underline">FAQ</a>
+                     <a href="contact.html" class="hover:underline">Contact</a>
+                    <a href="#" class="hover:underline">For Therapist</a>
+                </div>
+                <div class="flex space-x-5">
+                    <a href="#" class="text-white/80 hover:text-white">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-white/80 hover:text-white">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218 1.791.465 2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm5.25-10.75a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-white/80 hover:text-white">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-white/80 hover:text-white">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <hr class="border-white/20 my-6">
+
+            <div>
+                <div class="flex space-x-6 text-sm text-white/70">
+                    <a href="#" class="hover:underline">Terms & Condition</a>
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <p>&copy; 2025 Seerenity</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- SCRIPT -->
+    
+    <script>
+        const header = document.getElementById('main-header');
+        const heroSection = document.getElementById('hero-section');
+
+        window.addEventListener('scroll', () => {
+            // Trigger point: tinggi hero section dikurangi tinggi header (sekitar 80px)
+            const triggerPoint = heroSection.offsetHeight - 100;
+
+            if (window.scrollY > triggerPoint) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        });
+
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+            // Target div jawaban yang berada tepat setelah tombol
+            const answer = toggle.nextElementSibling;
+            // Target ikon svg di dalam tombol
+            const icon = toggle.querySelector('svg');
+
+            // Buka-tutup jawaban dengan transisi max-height
+            answer.classList.toggle('max-h-0');
+            answer.classList.toggle('max-h-[500px]'); // Set tinggi maksimal yang cukup besar
+
+            // Putar ikon panah
+            icon.classList.toggle('rotate-180');
+            });
+        });
+
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('icon-open');
+        const iconClose = document.getElementById('icon-close');
+
+        hamburgerBtn.addEventListener('click', () => {
+            // Toggle animasi menu
+            mobileMenu.classList.toggle('opacity-0');
+            mobileMenu.classList.toggle('-translate-y-4');
+            mobileMenu.classList.toggle('pointer-events-none');
+
+            // Tukar ikon hamburger dengan ikon close
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.animate-on-scroll');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+    </script>
+
+</body>
+
+</html>

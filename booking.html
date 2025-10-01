@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Schedule - Kamidengar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-light-blue': '#B3E5FC', 'brand-dark-blue': '#00BFFF', 'brand-pink': '#F72585',
+                        'brand-bg': '#E0F7FA', 'brand-card': '#FFFFFF', 'brand-primary': '#00BFFF',
+                        'brand-secondary': '#4895EF', 'brand-accent': '#F72585',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            backdrop-filter: blur(8px);
+        }
+        .header-scrolled #logo-initial { display: none; } .header-scrolled #logo-scrolled { display: block; }
+        .header-scrolled #header-nav { color: #4b5563; } .header-scrolled #login-btn { color: #38bdf8; border-color: #38bdf8; }
+        .header-scrolled #get-started-btn { background-color: #38bdf8; color: white; }
+    </style>
+</head>
+
+<body class="bg-brand-bg font-sans">
+    
+    <header id="main-header" class="bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 w-full z-50">
+        <div class="container mx-auto flex justify-between items-center px-6 md:px-8 py-4">
+            <a href="index.html" class="relative h-7 w-32 z-50">
+                <img src="assets/logo/logo-colour-text-24.svg" alt="Kamidengar Logo Color" class="h-full w-auto">
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <nav class="flex items-center space-x-8 text-gray-600 font-medium">
+                    <a href="find-therapist.html" class="hover:text-brand-primary">Find Therapist</a>
+                    <a href="#" class="hover:text-brand-primary">Business</a>
+                    <a href="#" class="hover:text-brand-primary">Volunteer</a>
+                    <a href="#" class="hover:text-brand-primary">Organization</a>
+                    <a href="about.html" class="hover:text-brand-primary">About</a>
+                    <a href="faq.html" class="hover:text-brand-primary">FAQ</a>
+                    <a href="contact.html" class="hover:text-brand-primary">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" class="border border-sky-500 text-sky-500 font-semibold px-5 py-2 rounded-full hover:bg-sky-50">Login</a>
+                    <a href="register.html" class="bg-sky-500 text-white font-semibold px-5 py-2 rounded-full hover:bg-sky-600">Get started</a>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <button id="hamburger-btn" class="z-50 relative">
+                    <svg id="icon-open" class="h-7 w-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    <svg id="icon-close" class="h-7 w-7 text-gray-700 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl text-gray-800">
+            <a href="find-therapist.html" class="hover:text-brand-primary">Find Therapist</a>
+            <a href="#" class="hover:text-brand-primary">Business</a>
+            <a href="#" class="hover:text-brand-primary">Volunteer</a>
+            <a href="#" class="hover:text-brand-primary">Organization</a>
+            <a href="about.html" class="hover:text-brand-primary">About</a>
+            <a href="faq.html" class="hover:text-brand-primary">FAQ</a>
+            <a href="contact.html" class="hover:text-brand-primary">Contact</a>
+            <div class="pt-8 space-y-4 w-4/5 mx-auto">
+                <a href="login.html" class="block w-full text-center border border-gray-400 font-semibold px-5 py-3 rounded-full">Login</a>
+                <a href="register.html" class="block w-full text-center bg-brand-primary text-white font-semibold px-5 py-3 rounded-full">Get Started</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="pt-28 pb-20">
+        <div class="container mx-auto px-6 md:px-8">
+            <div class="flex items-center gap-4 mb-8">
+                <a href="find-therapist.html" class="text-gray-700 hover:text-black"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></a>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Schedule Your Session</h1>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="bg-brand-card p-6 rounded-2xl shadow-sm border border-brand-primary/20">
+                        <div class="flex items-center gap-4">
+                            <img src="https://picsum.photos/seed/therapist1/100" class="w-20 h-20 rounded-full flex-shrink-0">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800" id="therapist-name-main">Humaira Fatuha</h2>
+                                <p class="text-gray-600">Master of Psychology</p>
+                            </div>
+                        </div>
+                        <hr class="my-4 border-brand-primary/20">
+                        <div class="flex justify-between items-center">
+                            <p class="text-gray-600">Session Fee</p>
+                            <p class="text-2xl font-bold text-brand-secondary" id="therapist-rate-main">$120/session</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-card p-6 rounded-2xl shadow-sm border border-brand-primary/20">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Schedule</h3>
+                        <p class="text-sm text-gray-500 mb-2">Select the duration</p>
+                        <div class="flex space-x-2 mb-4" id="duration-buttons">
+                            <button data-duration="15" class="flex-1 bg-brand-primary/10 text-brand-primary font-semibold py-2 rounded-lg text-sm">+15 mins</button>
+                            <button data-duration="30" class="flex-1 bg-brand-primary text-white font-semibold py-2 rounded-lg text-sm shadow">+30 mins</button>
+                            <button data-duration="60" class="flex-1 bg-brand-primary/10 text-brand-primary font-semibold py-2 rounded-lg text-sm">+60 mins</button>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4">Pick a date</p>
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <button id="prev-month" class="text-gray-600 p-2 rounded-full hover:bg-gray-100">&lt;</button>
+                                <p id="month-year" class="font-semibold text-gray-800"></p>
+                                <button id="next-month" class="text-gray-600 p-2 rounded-full hover:bg-gray-100">&gt;</button>
+                            </div>
+                            <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center text-sm"></div>
+                        </div>
+                        
+                        <div id="time-input-container" class="hidden mt-6">
+                            <p class="text-sm text-gray-500 mb-2">Enter your preferred time</p>
+                            <input type="time" id="time-input" class="w-full p-3 bg-brand-bg rounded-lg border border-brand-primary/20 focus:outline-none focus:ring-2 focus:ring-brand-primary">
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-8">
+                    <div class="bg-brand-card p-6 rounded-2xl shadow-sm border border-brand-primary/20">
+                         <h3 class="text-xl font-bold text-gray-800 mb-4">Additional Notes</h3>
+                         <textarea class="w-full h-24 p-3 bg-brand-bg rounded-lg border border-brand-primary/20 focus:outline-none focus:ring-2 focus:ring-brand-primary resize-none" placeholder="Additional notes..."></textarea>
+                    </div>
+                    <div class="bg-brand-card p-6 rounded-2xl shadow-sm border border-brand-primary/20">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Summary</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between"><p class="text-gray-600">Therapist:</p><p class="font-semibold text-gray-800" id="summary-therapist">-</p></div>
+                            <div class="flex justify-between"><p class="text-gray-600">Date:</p><p class="font-semibold text-gray-800" id="summary-date">-</p></div>
+                            <div class="flex justify-between"><p class="text-gray-600">Time:</p><p class="font-semibold text-gray-800" id="summary-time">-</p></div>
+                            <div class="flex justify-between"><p class="text-gray-600">Duration:</p><p class="font-semibold text-gray-800" id="summary-duration">-</p></div>
+                            <hr class="my-2 border-brand-primary/20">
+                            <div class="flex justify-between items-center"><p class="text-gray-600">Total:</p><p class="text-xl font-bold text-brand-secondary" id="summary-total">-</p></div>
+                        </div>
+                        <a href="payment.html" class="block w-full text-center">
+                            <button class="w-full bg-brand-accent text-white font-bold py-3 rounded-full hover:opacity-90">Confirm Booking</button>
+                        </a>
+                        <p class="text-xs text-gray-400 text-center mt-2">*Free cancellations after your first session</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-brand-accent text-white">
+        <div class="container mx-auto py-8 px-6 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-sm">
+                    <a href="index.html" class="hover:underline">Home</a>
+                    <a href="find-therapist.html" class="hover:underline">Find Therapist</a>
+                    <a href="#" class="hover:underline">Business</a>
+                    <a href="#" class="hover:underline">Volunteer</a>
+                    <a href="#" class="hover:underline">Organization</a>
+                    <a href="about.html" class="hover:underline">About</a>
+                    <a href="faq.html" class="hover:underline">FAQ</a>
+                    <a href="contact.html" class="hover:underline">Contact</a>
+                </div>
+                <div class="flex space-x-5">
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                </div>
+            </div>
+            <hr class="border-white/20 my-6">
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-white/70 gap-4">
+                <div class="flex space-x-6"><a href="#" class="hover:underline">Terms & Condition</a><a href="#" class="hover:underline">Privacy Policy</a></div>
+                <p>&copy; 2025 Kamidengar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const bookingState = {
+            therapist: document.getElementById('therapist-name-main').textContent,
+            rate: document.getElementById('therapist-rate-main').textContent,
+            duration: 30, date: null, time: null,
+        };
+
+        const durationButtonsContainer = document.getElementById('duration-buttons');
+        const monthYearEl = document.getElementById('month-year');
+        const calendarGridEl = document.getElementById('calendar-grid');
+        const timeInputContainer = document.getElementById('time-input-container');
+        const timeInput = document.getElementById('time-input');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('icon-open');
+        const iconClose = document.getElementById('icon-close');
+        
+        const summaryTherapist = document.getElementById('summary-therapist');
+        const summaryDate = document.getElementById('summary-date');
+        const summaryTime = document.getElementById('summary-time');
+        const summaryDuration = document.getElementById('summary-duration');
+        const summaryTotal = document.getElementById('summary-total');
+
+        let currentDate = new Date();
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            monthYearEl.textContent = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(currentDate);
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            calendarGridEl.innerHTML = `<span class="text-gray-400">Su</span><span class="text-gray-400">Mo</span><span class="text-gray-400">Tu</span><span class="text-gray-400">We</span><span class="text-gray-400">Th</span><span class="text-gray-400">Fr</span><span class="text-gray-400">Sa</span>`;
+            for (let i = 0; i < firstDay; i++) { calendarGridEl.insertAdjacentHTML('beforeend', '<span></span>'); }
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isSelected = dateStr === bookingState.date;
+                const selectedClass = isSelected ? 'bg-brand-primary text-white' : '';
+                calendarGridEl.insertAdjacentHTML('beforeend', `<span data-date="${dateStr}" class="py-2 cursor-pointer hover:bg-gray-100 rounded-full ${selectedClass}">${day}</span>`);
+            }
+        }
+
+        function updateSummary() {
+            summaryTherapist.textContent = bookingState.therapist;
+            summaryTotal.textContent = bookingState.rate;
+            summaryDuration.textContent = `~${bookingState.duration} Minutes`;
+            summaryTime.textContent = bookingState.time || '-';
+            if (bookingState.date) {
+                const dateObj = new Date(bookingState.date + 'T00:00:00');
+                summaryDate.textContent = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(dateObj);
+            } else {
+                summaryDate.textContent = '-';
+            }
+        }
+
+        // --- EVENT HANDLERS (DENGAN PERUBAHAN) ---
+        durationButtonsContainer.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                bookingState.duration = parseInt(e.target.dataset.duration);
+                document.querySelectorAll('#duration-buttons button').forEach(btn => {
+                    btn.classList.remove('bg-brand-primary', 'text-white', 'shadow');
+                    btn.classList.add('bg-brand-primary/10', 'text-brand-primary');
+                });
+                e.target.classList.add('bg-brand-primary', 'text-white', 'shadow');
+                e.target.classList.remove('bg-brand-primary/10', 'text-brand-primary');
+                updateSummary();
+            }
+        });
+
+        calendarGridEl.addEventListener('click', (e) => {
+            if (e.target.dataset.date) {
+                bookingState.date = e.target.dataset.date;
+                bookingState.time = null;
+                timeInput.value = ''; // Reset input waktu
+                renderCalendar();
+                timeInputContainer.classList.remove('hidden'); // Tampilkan input waktu
+                updateSummary();
+            }
+        });
+
+        timeInput.addEventListener('input', (e) => {
+            bookingState.time = e.target.value;
+            updateSummary();
+        });
+        
+        prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
+        nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+        hamburgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('-translate-x-full');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+
+        // --- INITIAL RENDER (Perbaikan Bug) ---
+        function initializePage() {
+            // Set summary ke state awal yang bersih
+            summaryTherapist.textContent = bookingState.therapist;
+            summaryTotal.textContent = bookingState.rate;
+            summaryDuration.textContent = `~${bookingState.duration} Minutes`;
+            summaryDate.textContent = '-';
+            summaryTime.textContent = '-';
+            renderCalendar();
+        }
+
+        initializePage();
+    });
+    </script>
+</body>
+</html>

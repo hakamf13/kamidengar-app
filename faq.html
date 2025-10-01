@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Kamidengar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#E0F7FA', 'brand-primary': '#00BFFF', 'brand-accent': '#F72585',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans">
+
+    <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 w-full z-50">
+        </header>
+
+    <main>
+        <section class="bg-brand-bg py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800">Frequently Asked Questions</h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Have a question? We're here to help. Find answers to common questions below.</p>
+            </div>
+        </section>
+
+        <section class="py-20">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">General</h2>
+                <div class="space-y-4">
+                    <div class="border-b border-gray-200">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                            <span>What is Kamidengar?</span>
+                            <svg class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <p class="pb-4 text-gray-600">Kamidengar is an online therapy platform that connects you with licensed and experienced therapists for confidential and convenient sessions via video, voice, or text.</p>
+                        </div>
+                    </div>
+                    <div class="border-b border-gray-200">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                            <span>Is my information kept confidential?</span>
+                            <svg class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <p class="pb-4 text-gray-600">Absolutely. Confidentiality is our top priority. Our platform is secure and all communication between you and your therapist is encrypted and protected.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold text-gray-800 mt-12 mb-6">For Patients</h2>
+                <div class="space-y-4">
+                     <div class="border-b border-gray-200">
+                        <button class="faq-toggle w-full flex justify-between items-center text-left text-lg font-medium text-gray-800 py-4">
+                            <span>How do I get matched with a therapist?</span>
+                            <svg class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <p class="pb-4 text-gray-600">After signing up, you'll complete a short questionnaire about your needs and preferences. Our algorithm will then suggest several therapists that are a good fit for you, and you can choose the one you prefer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-brand-accent text-white">
+        </footer>
+
+    <script>
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const answer = toggle.nextElementSibling;
+                const icon = toggle.querySelector('svg');
+
+                // Cek jika accordion ini sedang terbuka
+                const isOpen = answer.classList.contains('max-h-[500px]');
+
+                // Tutup semua accordion yang terbuka
+                document.querySelectorAll('.max-h-\\[500px\\]').forEach(openAnswer => {
+                    openAnswer.classList.remove('max-h-[500px]');
+                    openAnswer.classList.add('max-h-0');
+                    openAnswer.previousElementSibling.querySelector('svg').classList.remove('rotate-180');
+                });
+                
+                // Jika yang diklik tadi tertutup, buka
+                if (!isOpen) {
+                    answer.classList.toggle('max-h-0');
+                    answer.classList.toggle('max-h-[500px]');
+                    icon.classList.toggle('rotate-180');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

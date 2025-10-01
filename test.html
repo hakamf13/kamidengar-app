@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Therapist - Kamidengar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-light-blue': '#B3E5FC', 'brand-dark-blue': '#00BFFF', 'brand-pink': '#F72585',
+                        'brand-bg': '#E0F7FA', 'brand-card': '#FFFFFF', 'brand-primary': '#00BFFF',
+                        'brand-secondary': '#4895EF', 'brand-accent': '#F72585',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%2300BFFF"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+        .pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+        .pagination-btn.active { background-color: #F72585; color: white; border-color: #F72585; }
+    </style>
+</head>
+
+<body class="bg-brand-bg font-sans">
+    
+    <header id="main-header" class="bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 w-full z-50">
+        <div class="container mx-auto flex justify-between items-center px-6 md:px-8 py-4">
+            <a href="index.html" class="relative h-7 w-32 z-50">
+                <img src="assets/logo/logo-colour-text-24.svg" alt="Kamidengar Logo Color" class="h-full w-auto">
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                 <nav class="flex items-center space-x-8 text-gray-600">
+                     <a href="about.html" class="hover:text-brand-primary">About</a>
+                     <a href="faq.html" class="hover:text-brand-primary">FAQ</a>
+                     <a href="contact.html" class="hover:text-brand-primary">Contact</a>
+                 </nav>
+                 <div class="flex items-center space-x-4">
+                      <a href="login.html" class="border border-sky-500 text-sky-500 font-semibold px-5 py-2 rounded-full hover:bg-sky-50">Login</a>
+                      <a href="register.html" class="bg-sky-500 text-white font-semibold px-5 py-2 rounded-full hover:bg-sky-600">Get started</a>
+                 </div>
+            </div>
+            <div class="md:hidden">
+                 <button id="hamburger-btn" class="z-50 relative">
+                      <svg id="icon-open" class="h-7 w-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                      <svg id="icon-close" class="h-7 w-7 text-gray-700 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                 </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl text-gray-800">
+            <a href="about.html" class="hover:text-brand-primary">About</a>
+            <a href="faq.html" class="hover:text-brand-primary">FAQ</a>
+            <a href="contact.html" class="hover:text-brand-primary">Contact</a>
+            <div class="pt-8 space-y-4 w-4/5 mx-auto">
+                <a href="login.html" class="block w-full text-center border border-gray-400 font-semibold px-5 py-3 rounded-full">Login</a>
+                <a href="register.html" class="block w-full text-center bg-brand-primary text-white font-semibold px-5 py-3 rounded-full">Get Started</a>
+            </div>
+        </div>
+    </div>
+    
+    <main class="pt-24 pb-20">
+        <section class="container mx-auto">
+             <div class="grid md:grid-cols-2 items-center gap-16 px-6 md:px-8">
+                <div class="text-left">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">Find expert and trusted therapists you can count on</h1>
+                    <p class="mt-4 text-lg text-gray-600 max-w-xl">Get professional, high-quality therapy for a range of issues, delivered conveniently.</p>
+                    <form id="filter-form" class="mt-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                             <select id="issues-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="gender-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="language-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="religion-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="rate-filter" class="sm:col-span-2 w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select">
+                                <option value="All">All Rates</option><option value="0-100">$0 - $100</option><option value="101-150">$101 - $150</option><option value="151-200">$151 - $200</option><option value="201-9999">$201+</option>
+                             </select>
+                        </div>
+                        <div class="flex items-center space-x-4 pt-6">
+                             <button type="reset" id="reset-btn" class="border border-brand-pink text-brand-pink font-semibold px-8 py-2 rounded-full hover:bg-pink-50">Reset</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="hidden md:block">
+                     <img src="assets/images/hero-2.png" alt="Find the right therapist for you" class="w-full h-auto">
+                </div>
+            </div>
+        </section>
+
+        <div id="therapist-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 backdrop-blur-sm">
+            <div id="modal-content-wrapper" class="bg-brand-light-blue rounded-3xl shadow-xl w-full max-w-lg relative p-8"><div id="modal-content"></div></div>
+        </div>
+    </main>
+    
+    <section class="pb-20">
+        <div class="container mx-auto px-6 md:px-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg">
+                <div class="hidden md:grid grid-cols-[80px,1.5fr,1.5fr,1fr,1.5fr] gap-4 px-4 pb-4 border-b border-gray-200 justify-items-center">
+                    <h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Therapist</h4><h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Name</h4><h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Expertise</h4><h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Rates</h4><h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Action</h4>
+                </div>
+                <div id="therapist-list-container" class="space-y-4 md:space-y-0 mt-4 min-h-[300px]"></div>
+                <div id="pagination-container" class="flex justify-center items-center mt-8 space-x-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-accent text-white">
+        <div class="container mx-auto py-8 px-6 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-sm">
+                    <a href="index.html" class="hover:underline">Home</a><a href="about.html" class="hover:underline">About</a><a href="faq.html" class="hover:underline">FAQ</a><a href="contact.html" class="hover:underline">Contact</a>
+                </div>
+                <div class="flex space-x-5">
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                </div>
+            </div>
+            <hr class="border-white/20 my-6">
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-white/70 gap-4">
+                <div class="flex space-x-6"><a href="#" class="hover:underline">Terms & Condition</a><a href="#" class="hover:underline">Privacy Policy</a></div>
+                <p>&copy; 2025 Kamidengar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ... Seluruh kode JavaScript fungsional Anda dari langkah sebelumnya ...
+    </script>
+</body>
+</html>

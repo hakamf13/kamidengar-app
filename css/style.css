@@ -1,0 +1,167 @@
+/* ===== GOOGLE FONTS (OPSIONAL TAPI DIREKOMENDASIKAN) ===== */
+/* Kita akan pakai font 'Poppins' yang mirip dengan desain */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ===== CSS VARIABLES (VARIABEL WARNA) ===== */
+/* Ini memudahkan kita jika ingin ganti tema warna nanti */
+:root {
+    --primary-color: #F72585; /* Pink dari desain */
+    --secondary-color: #FFFFFF; /* Putih */
+    --background-color: #F72585; /* Background hero section */
+    --text-color-light: #FFFFFF;
+    --text-color-dark: #212121; /* Hitam/Abu tua */
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* ===== RESET DASAR & STYLE GLOBAL ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: #F0F7FF; /* Warna background umum yang biru muda */
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Class 'container' untuk membatasi lebar konten agar rapi di tengah */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== STYLE NAVBAR ===== */
+.header {
+    /* UBAH: Jadi transparan dan hilangkan bayangan */
+    background-color: transparent; 
+    padding: 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    height: 70px; 
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo img {
+    height: 50px;
+    /* TAMBAHKAN: Filter untuk mengubah logo jadi putih */
+    /* Trik ini berfungsi baik untuk SVG atau PNG satu warna */
+    filter: brightness(0) invert(1);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-menu a {
+    /* UBAH: Warna teks menu jadi putih */
+    color: var(--text-color-light); 
+    font-weight: 500;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== STYLE TOMBOL (BUTTONS) ===== */
+.btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-block;
+    border: 2px solid transparent;
+    transition: background-color 0.3s, color 0.3s; /* Animasi halus */
+}
+
+/* UBAH: Style untuk tombol utama (Get Started) */
+.btn-primary {
+    background-color: var(--secondary-color); /* Background jadi putih */
+    color: var(--primary-color);             /* Teks jadi pink */
+}
+
+/* Efek saat mouse hover di tombol Get Started */
+.btn-primary:hover {
+    background-color: #f0f0f0; /* Sedikit lebih gelap saat disentuh */
+}
+
+/* UBAH: Style untuk tombol login */
+.btn-login {
+    color: var(--text-color-light); /* Teks jadi putih */
+    font-weight: 500;
+}
+
+/* Pastikan Anda memiliki kode ini */
+.btn-secondary {
+    background-color: var(--secondary-color); /* Background putih */
+    color: var(--primary-color);             /* Teks pink */
+    font-size: 1.1rem;
+    padding: 12px 30px;
+}
+
+/* ===== STYLE HERO SECTION (YANG DIPERBAIKI) ===== */
+.hero {
+    background-color: var(--background-color);
+    color: var(--text-color-light);
+    
+    /* === PERUBAHAN UTAMA DI SINI === */
+    min-height: 100vh; /* 1. Set tinggi minimal = 100% tinggi viewport/layar */
+    display: flex;     /* 2. Gunakan flexbox... */
+    align-items: center; /* 3. ...untuk menengahkan konten secara vertikal */
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    
+    /* Atur agar konten tidak mentok ke navbar */
+    padding-top: 70px; /* 4. Beri padding atas sebesar tinggi header */
+}
+
+.hero-text {
+    flex: 1; 
+    max-width: 550px;
+    text-align: center; /* <<< TAMBAHKAN INI untuk membuat semua teks ke tengah */
+}
+
+.hero-text h1 {
+    font-size: 4.2rem; /* <<< UBAH INI dari 3.5rem menjadi 4.2rem */
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+}

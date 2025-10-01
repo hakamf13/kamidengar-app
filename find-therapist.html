@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Therapist - Kamidengar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-light-blue': '#B3E5FC', 'brand-dark-blue': '#00BFFF', 'brand-pink': '#F72585',
+                        'brand-bg': '#E0F7FA', 'brand-card': '#FFFFFF', 'brand-primary': '#00BFFF',
+                        'brand-secondary': '#4895EF', 'brand-accent': '#F72585',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .header-scrolled { background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); backdrop-filter: blur(8px); }
+        .custom-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%2300BFFF"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+        .pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+        .pagination-btn.active { background-color: #F72585; color: white; border-color: #F72585; }
+    </style>
+
+    <style>
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.98); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            backdrop-filter: blur(8px);
+        }
+        .header-scrolled #logo-initial { display: none; } .header-scrolled #logo-scrolled { display: block; }
+        .header-scrolled #header-nav { color: #4b5563; } .header-scrolled #login-btn { color: #38bdf8; border-color: #38bdf8; }
+        .header-scrolled #get-started-btn { background-color: #38bdf8; color: white; }
+    </style>
+</head>
+
+<body class="bg-brand-bg font-sans">
+    
+    <header id="main-header" class="bg-white/95 backdrop-blur-sm shadow-sm fixed top-0 w-full z-50">
+        <div class="container mx-auto flex justify-between items-center px-6 md:px-8 py-4">
+            <a href="index.html" class="relative h-7 w-32 z-50">
+                <img src="assets/logo/logo-colour-text-24.svg" alt="Kamidengar Logo Color" class="h-full w-auto">
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <nav class="flex items-center space-x-8 text-gray-600 font-medium">
+                    <a href="find-therapist.html" class="hover:text-brand-primary">Find Therapist</a>
+                    <a href="#" class="hover:text-brand-primary">Business</a>
+                    <a href="#" class="hover:text-brand-primary">Volunteer</a>
+                    <a href="#" class="hover:text-brand-primary">Organization</a>
+                    <a href="about.html" class="hover:text-brand-primary">About</a>
+                    <a href="faq.html" class="hover:text-brand-primary">FAQ</a>
+                    <a href="contact.html" class="hover:text-brand-primary">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" class="border border-sky-500 text-sky-500 font-semibold px-5 py-2 rounded-full hover:bg-sky-50">Login</a>
+                    <a href="register.html" class="bg-sky-500 text-white font-semibold px-5 py-2 rounded-full hover:bg-sky-600">Get started</a>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <button id="hamburger-btn" class="z-50 relative">
+                    <svg id="icon-open" class="h-7 w-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    <svg id="icon-close" class="h-7 w-7 text-gray-700 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl text-gray-800">
+            <a href="find-therapist.html" class="hover:text-brand-primary">Find Therapist</a>
+            <a href="#" class="hover:text-brand-primary">Business</a>
+            <a href="#" class="hover:text-brand-primary">Volunteer</a>
+            <a href="#" class="hover:text-brand-primary">Organization</a>
+            <a href="about.html" class="hover:text-brand-primary">About</a>
+            <a href="faq.html" class="hover:text-brand-primary">FAQ</a>
+            <a href="contact.html" class="hover:text-brand-primary">Contact</a>
+            <div class="pt-8 space-y-4 w-4/5 mx-auto">
+                <a href="login.html" class="block w-full text-center border border-gray-400 font-semibold px-5 py-3 rounded-full">Login</a>
+                <a href="register.html" class="block w-full text-center bg-brand-primary text-white font-semibold px-5 py-3 rounded-full">Get Started</a>
+            </div>
+        </div>
+    </div>
+    
+    <main class="pt-24 pb-20">
+        <section class="container mx-auto">
+             <div class="grid md:grid-cols-2 items-center gap-16 px-6 md:px-8">
+                <div class="text-left">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">Find Your Trusted Therapist</h1>
+                    <p class="mt-4 text-lg text-gray-600 max-w-xl">Get professional, high-quality therapy for a range of issues, delivered conveniently.</p>
+                    
+                    <form id="filter-form" class="mt-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                             <select id="issues-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="gender-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="language-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="religion-filter" class="w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select"></select>
+                             <select id="rate-filter" class="sm:col-span-2 w-full bg-brand-light-blue p-3 rounded-full font-medium text-brand-dark-blue cursor-pointer focus:outline-none custom-select">
+                                <option value="All">All Rates</option>
+                                <option value="0-100">$0 - $100</option>
+                                <option value="101-150">$101 - $150</option>
+                                <option value="151-200">$151 - $200</option>
+                                <option value="201-9999">$201+</option>
+                             </select>
+                        </div>
+                        <div class="flex items-center space-x-4 pt-6">
+                             <button type="reset" id="reset-btn" class="border border-brand-pink text-brand-pink font-semibold px-8 py-2 rounded-full hover:bg-pink-50">Reset</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="hidden md:block">
+                     <img src="assets/images/hero-2.png" alt="Find the right therapist for you" class="w-full h-auto">
+                </div>
+            </div>
+        </section>
+
+        <div id="therapist-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex justify-center items-center p-4 backdrop-blur-sm">
+            <div id="modal-content-wrapper" class="bg-brand-light-blue rounded-3xl shadow-xl w-full max-w-lg relative p-8">
+                <div id="modal-content"></div>
+            </div>
+        </div>
+    </main>
+    
+    <section class="pb-20">
+        <div class="container mx-auto px-6 md:px-8">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg">
+                <div class="hidden md:grid grid-cols-[80px,1.5fr,1.5fr,1fr,1.5fr] gap-4 px-4 pb-4 border-b border-gray-200 justify-items-center">
+                    <h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Therapist</h4>
+                    <h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Name</h4>
+                    <h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Expertise</h4>
+                    <h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Rates</h4>
+                    <h4 class="text-xs uppercase tracking-wider font-semibold text-gray-400">Action</h4>
+                </div>
+                <div id="therapist-list-container" class="space-y-4 md:space-y-0 mt-4 min-h-[300px]">
+                    </div>
+                <div id="pagination-container" class="flex justify-center items-center mt-8 space-x-2">
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-accent text-white">
+        <div class="container mx-auto py-8 px-6 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-sm">
+                    <a href="index.html" class="hover:underline">Home</a>
+                    <a href="find-therapist.html" class="hover:underline">Find Therapist</a>
+                    <a href="#" class="hover:underline">Business</a>
+                    <a href="#" class="hover:underline">Volunteer</a>
+                    <a href="#" class="hover:underline">Organization</a>
+                    <a href="about.html" class="hover:underline">About</a>
+                    <a href="faq.html" class="hover:underline">FAQ</a>
+                    <a href="contact.html" class="hover:underline">Contact</a>
+                </div>
+                <div class="flex space-x-5">
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                    <a href="#" class="text-white/80 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                </div>
+            </div>
+            <hr class="border-white/20 my-6">
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-white/70 gap-4">
+                <div class="flex space-x-6"><a href="#" class="hover:underline">Terms & Condition</a><a href="#" class="hover:underline">Privacy Policy</a></div>
+                <p>&copy; 2025 Kamidengar</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DATABASE SIMULASI (DENGAN 20 TERAPIS) ---
+            const allTherapists = [
+                { name: "Dr. Adinda Sari", title: "Clinical Psychologist", image: "https://picsum.photos/seed/adinda/100", expertise: ["Anxiety", "Depression", "Trauma"], rate: 160, gender: "Female", languages: ["Bahasa Indonesia", "English"], religion: "Islam", bio: "With a compassionate and evidence-based approach, I help individuals navigate through their most challenging times. My focus is on creating a safe and non-judgmental space for healing and growth." },
+                { name: "Dr. Budi Hartono", title: "Counseling Psychologist", image: "https://picsum.photos/seed/budi/100", expertise: ["Stress", "Career Counseling", "Anger Management"], rate: 140, gender: "Male", languages: ["Bahasa Indonesia"], religion: "Kristen", bio: "Using a client-centered and practical approach, I provide tools and strategies to manage stress, improve work-life balance, and foster personal development." },
+                { name: "Dr. Citra Dewi", title: "Marriage & Family Therapist", image: "https://picsum.photos/seed/citra/100", expertise: ["Marriage Counseling", "Relationship", "Family Issues"], rate: 180, gender: "Female", languages: ["English"], religion: "Katolik", bio: "I specialize in helping couples and families build stronger, healthier bonds through effective communication and mutual understanding." },
+                { name: "Dr. David Tan", title: "PhD in Psychology", image: "https://picsum.photos/seed/david/100", expertise: ["Self-esteem", "Grief", "Phobias"], rate: 170, gender: "Male", languages: ["English", "Mandarin"], religion: "Buddha", bio: "Together, we can explore the depths of the mind to overcome fears, process loss, and build a resilient sense of self." },
+                { name: "Dr. Eka Putri", title: "Child Psychologist", image: "https://picsum.photos/seed/eka/100", expertise: ["ADHD", "Autism", "Parenting"], rate: 190, gender: "Female", languages: ["Bahasa Indonesia"], religion: "Islam", bio: "I am dedicated to helping children and their families navigate developmental challenges, ensuring every child has the opportunity to thrive." },
+                { name: "Dr. Farhan Malik", title: "Addiction Specialist", image: "https://picsum.photos/seed/farhan/100", expertise: ["Addiction", "Substance Abuse"], rate: 210, gender: "Male", languages: ["Bahasa Indonesia", "English"], religion: "Islam", bio: "Recovery is a journey, not a destination. I provide a supportive path towards overcoming addiction and reclaiming your life." },
+                { name: "Dr. Grace Siregar", title: "Trauma Specialist", image: "https://picsum.photos/seed/grace/100", expertise: ["Trauma", "PTSD"], rate: 200, gender: "Female", languages: ["English"], religion: "Kristen", bio: "Specializing in trauma-informed care, I help clients process past events and move forward towards a future defined by strength and healing." },
+                { name: "Dr. Hasan Wijaya", title: "Cognitive Behavioral Therapist", image: "https://picsum.photos/seed/hasan/100", expertise: ["OCD", "Anxiety", "Phobias"], rate: 155, gender: "Male", languages: ["Bahasa Indonesia"], religion: "Islam", bio: "By focusing on changing thought patterns and behaviors, we can effectively address and manage conditions like OCD and anxiety." },
+                { name: "Dr. Indah Permata", title: "Mindfulness Coach", image: "https://picsum.photos/seed/indah/100", expertise: ["Stress", "Mindfulness", "Meditation"], rate: 90, gender: "Female", languages: ["Bahasa Indonesia", "English"], religion: "Spiritual", bio: "Learn to find peace in the present moment. I guide clients in mindfulness and meditation techniques to reduce stress and enhance well-being." },
+                { name: "Dr. Joko Susilo", title: "Geriatric Psychologist", image: "https://picsum.photos/seed/joko/100", expertise: ["Aging", "Dementia"], rate: 130, gender: "Male", languages: ["Bahasa Indonesia"], religion: "Kejawen", bio: "I provide specialized mental wellness support for seniors, addressing the unique challenges associated with aging." },
+                { name: "Dr. Kartika Lestari", title: "Eating Disorder Specialist", image: "https://picsum.photos/seed/kartika/100", expertise: ["Eating Disorders", "Body Image"], rate: 220, gender: "Female", languages: ["English"], religion: "Atheist / Agnostic", bio: "My goal is to help you build a healthy and positive relationship with food, your body, and yourself." },
+                { name: "Dr. Leo Chandra", title: "LGBTQ+ Affirming Therapist", image: "https://picsum.photos/seed/leo/100", expertise: ["LGBTQ+", "Gender Identity"], rate: 175, gender: "Male", languages: ["English"], religion: "Atheist / Agnostic", bio: "Providing a safe, affirming, and supportive space for the LGBTQ+ community to explore identity and navigate life's challenges." },
+                { name: "Dr. Maya Sari", title: "Perinatal Mental Health", image: "https://picsum.photos/seed/maya/100", expertise: ["Postpartum Depression", "Parenting"], rate: 185, gender: "Female", languages: ["Bahasa Indonesia"], religion: "Islam", bio: "Specialized support for new and expecting mothers, helping navigate the emotional complexities of parenthood." },
+                { name: "Dr. Nugroho Prasetyo", title: "Sports Psychologist", image: "https://picsum.photos/seed/nugroho/100", expertise: ["Performance Anxiety", "Motivation"], rate: 250, gender: "Male", languages: ["English"], religion: "Kristen", bio: "Unlock your potential. I work with athletes and performers to achieve peak mental performance and overcome psychological barriers." },
+                { name: "Dr. Olivia Chen", title: "Cross-Cultural Counselor", image: "https://picsum.photos/seed/olivia/100", expertise: ["Cultural Adjustment", "Expat Life"], rate: 165, gender: "Female", languages: ["English", "Mandarin"], religion: "Buddha", bio: "I help individuals and families navigate the challenges and opportunities of living and working across different cultures." },
+                { name: "Dr. Putra Utama", title: "Sleep Specialist", image: "https://picsum.photos/seed/putra/100", expertise: ["Insomnia", "Sleep Disorders"], rate: 150, gender: "Male", languages: ["Bahasa Indonesia"], religion: "Hindu", bio: "Restful nights lead to better days. I provide evidence-based treatments for a wide range of sleep disorders." },
+                { name: "Dr. Rina Wati", title: "Anxiety & OCD Specialist", image: "https://picsum.photos/seed/rina/100", expertise: ["Anxiety", "OCD", "Panic Attacks"], rate: 195, gender: "Female", languages: ["English"], religion: "Kristen", bio: "Let's work together to help you regain control from anxiety and obsessive thoughts through proven therapeutic techniques." },
+                { name: "Dr. Surya Dharma", title: "Spiritual Counselor", image: "https://picsum.photos/seed/surya/100", expertise: ["Spirituality", "Existential Crisis", "Meditation"], rate: 120, gender: "Male", languages: ["Bahasa Indonesia", "English"], religion: "Spiritual", bio: "Providing guidance on your spiritual path, I help you explore life's big questions and find a deeper sense of meaning." },
+                { name: "Dr. Tania Halim", title: "Relationship Counselor", image: "https://picsum.photos/seed/tania/100", expertise: ["Relationship", "Marriage Counseling", "Dating"], rate: 170, gender: "Female", languages: ["English", "Mandarin"], religion: "Katolik", bio: "Fostering healthy connections and communication is key. I work with individuals and couples to build fulfilling relationships." },
+                { name: "Dr. Umar Said", title: "Islamic Psychologist", image: "https://picsum.photos/seed/umar/100", expertise: ["Islamic Counseling", "Family Issues"], rate: 150, gender: "Male", languages: ["Bahasa Indonesia"], religion: "Islam", bio: "Integrating the principles of faith with modern psychology to provide holistic support for individuals and families." }
+            ];
+
+            // --- STATE & PENGATURAN ---
+            let currentPage = 1;
+            const itemsPerPage = 5;
+
+            // --- SEMUA ELEMENT SELECTOR ---
+            const listContainer = document.getElementById('therapist-list-container');
+            const paginationContainer = document.getElementById('pagination-container');
+            const issuesFilter = document.getElementById('issues-filter');
+            const genderFilter = document.getElementById('gender-filter');
+            const languageFilter = document.getElementById('language-filter');
+            const religionFilter = document.getElementById('religion-filter');
+            const rateFilter = document.getElementById('rate-filter');
+            const resetBtn = document.getElementById('reset-btn');
+            const modal = document.getElementById('therapist-modal');
+            const modalContent = document.getElementById('modal-content');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-open');
+            const iconClose = document.getElementById('icon-close');
+
+            // --- FUNGSI DINAMIS UNTUK MENGISI FILTER ---
+            function populateFilters() {
+                const issues = [...new Set(allTherapists.flatMap(t => t.expertise))].sort();
+                const genders = ["All", "Male", "Female", "Non-binary"]; // Dibuat statis agar lengkap
+                const languages = [...new Set(allTherapists.flatMap(t => t.languages))].sort();
+                const religions = [...new Set(allTherapists.map(t => t.religion))].sort();
+
+                issuesFilter.innerHTML = '<option value="All">All Issues</option>' + issues.map(i => `<option value="${i}">${i}</option>`).join('');
+                genderFilter.innerHTML = genders.map(g => `<option value="${g}">${g === 'All' ? 'All Genders' : g}</option>`).join('');
+                languageFilter.innerHTML = '<option value="All">All Languages</option>' + languages.map(l => `<option value="${l}">${l}</option>`).join('');
+                religionFilter.innerHTML = '<option value="All">All Religions</option>' + religions.map(r => `<option value="${r}">${r}</option>`).join('');
+            }
+            
+            // --- FUNGSI RENDER ---
+            function renderTherapists(therapistData) {
+                listContainer.innerHTML = '';
+                if (therapistData.length === 0) {
+                    listContainer.innerHTML = `<p class="text-center text-gray-500 py-10">No therapists found matching your criteria.</p>`;
+                    return;
+                }
+                therapistData.forEach(therapist => {
+                    // Escape double quotes in bio for the data attribute
+                    const safeBio = therapist.bio.replace(/"/g, '&quot;');
+                    const cardHTML = `
+                    <div class="therapist-card bg-white rounded-2xl p-4 transition-all duration-300 hover:shadow-lg border-b md:border-none"
+                        data-name="${therapist.name}" data-title="${therapist.title}" data-image="${therapist.image}" data-bio="${safeBio}" data-expertise='${JSON.stringify(therapist.expertise)}'>
+                        <div class="md:hidden space-y-3">
+                            <div class="flex items-center gap-4">
+                                <img src="${therapist.image}" alt="${therapist.name}" class="w-16 h-16 rounded-full flex-shrink-0">
+                                <div class="text-left"><p class="font-bold text-gray-800">${therapist.name}</p><p class="text-sm text-gray-500">${therapist.title}</p><button class="open-bio mt-1 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="bio">Bio</button></div>
+                            </div>
+                            <div class="text-left pt-3 border-t"><p class="font-bold text-gray-800">${therapist.expertise[0]}</p><p class="text-sm text-gray-500">${therapist.expertise.slice(1, 3).join(', ')}</p><button class="open-expertise mt-1 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="expertise">View All</button></div>
+                            <div class="text-left pt-3 border-t"><p class="font-bold text-gray-800">Rates</p><p class="text-gray-700">$${therapist.rate}/hour</p></div>
+                            <div class="flex gap-4 pt-3 border-t"><button class="w-full bg-gradient-to-r from-pink-500 to-rose-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Share</button><a href="booking.html" class="w-full"><button class="w-full bg-gradient-to-r from-sky-400 to-cyan-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Hire</button></a></div>
+                        </div>
+                        <div class="hidden md:grid md:grid-cols-[80px,1.5fr,1.5fr,1fr,1.5fr] gap-4 items-center text-center justify-items-center">
+                            <img src="${therapist.image}" alt="${therapist.name}" class="w-16 h-16 rounded-full">
+                            <div><p class="font-bold text-gray-800">${therapist.name}</p><p class="text-sm text-gray-500">${therapist.title}</p><button class="open-bio mt-2 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="bio">Bio</button></div>
+                            <div><p class="font-bold text-gray-800">${therapist.expertise[0]}</p><p class="text-sm text-gray-500">${therapist.expertise.slice(1, 3).join(', ')}</p><button class="open-expertise mt-2 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="expertise">View All</button></div>
+                            <p class="text-gray-700">$${therapist.rate}/hour</p>
+                            <div class="flex justify-center items-center gap-2"><button class="bg-gradient-to-r from-pink-500 to-rose-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Share</button><a href="booking.html"><button class="bg-gradient-to-r from-sky-400 to-cyan-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Hire</button></a></div>
+                        </div>
+                    </div>`;
+                    listContainer.insertAdjacentHTML('beforeend', cardHTML);
+                });
+            }
+
+            function renderPagination(totalItems, itemsPerPage, currentPage) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                paginationContainer.innerHTML = '';
+                if (totalPages <= 1) return;
+                const createButton = (text, page, isDisabled = false, isActive = false) => {
+                    return `<button data-page="${page}" class="pagination-btn px-3 py-1 md:px-4 md:py-2 rounded-full text-sm md:text-base text-gray-600 border border-gray-300 hover:bg-gray-100 ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}">${text}</button>`;
+                }
+                paginationContainer.insertAdjacentHTML('beforeend', createButton('Prev', 'prev', currentPage === 1));
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationContainer.insertAdjacentHTML('beforeend', createButton(i, i, false, currentPage === i));
+                }
+                paginationContainer.insertAdjacentHTML('beforeend', createButton('Next', 'next', currentPage === totalPages));
+            }
+
+            // --- LOGIKA MODAL ---
+            function activateModalListeners() {
+                const openModalButtons = document.querySelectorAll('.open-bio, .open-expertise');
+                const modalWrapper = document.getElementById('modal-content-wrapper');
+
+                openModalButtons.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const type = event.currentTarget.dataset.type;
+                        const card = event.currentTarget.closest('.therapist-card');
+                        const name = card.dataset.name, title = card.dataset.title, image = card.dataset.image, bio = card.dataset.bio, expertise = JSON.parse(card.dataset.expertise);
+                        
+                        let contentHTML = '';
+                        if (type === 'bio') {
+                            contentHTML = `<div class="text-center"><img src="${image}" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white"><h3 class="text-2xl font-bold text-gray-800">${name}</h3><p class="text-gray-600">${title}</p><p class="mt-4 text-gray-700 text-left text-sm leading-relaxed">${bio}</p><div class="mt-6 flex justify-end"><button class="close-modal-btn border border-brand-pink text-brand-pink font-semibold px-8 py-2 rounded-full">Close</button></div></div>`;
+                        } else if (type === 'expertise') {
+                            const expertiseItems = expertise.map(item => `<li class="py-1">• ${item}</li>`).join('');
+                            contentHTML = `<div class="text-center"><h3 class="text-2xl font-bold text-gray-800 mb-6">Expertise of ${name}</h3><ul class="text-left space-y-1 text-gray-700 text-sm max-h-60 overflow-y-auto pr-4">${expertiseItems}</ul><div class="mt-6 flex justify-end"><button class="close-modal-btn border border-brand-pink text-brand-pink font-semibold px-8 py-2 rounded-full">Close</button></div></div>`;
+                        }
+                        modalContent.innerHTML = contentHTML;
+                        modal.classList.remove('hidden');
+                    });
+                });
+            }
+
+            modal.addEventListener('click', (event) => {
+                // Cek jika klik diluar area konten modal atau pada tombol close
+                if (!event.target.closest('#modal-content-wrapper') || event.target.closest('.close-modal-btn')) {
+                    modal.classList.add('hidden');
+                }
+            });
+
+            // --- FUNGSI UTAMA UNTUK FILTER DAN RENDER ---
+            function updateDisplay() {
+                // 1. Filter data
+                const selectedIssue = issuesFilter.value, selectedGender = genderFilter.value, selectedLang = languageFilter.value, selectedReligion = religionFilter.value, selectedRate = rateFilter.value.split('-');
+                const filteredData = allTherapists.filter(therapist => {
+                    const issueMatch = (selectedIssue === "All") || (therapist.expertise.includes(selectedIssue));
+                    const genderMatch = (selectedGender === "All") || (therapist.gender === selectedGender);
+                    const langMatch = (selectedLang === "All") || (therapist.languages.includes(selectedLang));
+                    const religionMatch = (selectedReligion === "All") || (therapist.religion === selectedReligion);
+                    let rateMatch = true;
+                    if (selectedRate[0] !== "All") {
+                        const minRate = parseInt(selectedRate[0]); const maxRate = parseInt(selectedRate[1]);
+                        rateMatch = therapist.rate >= minRate && therapist.rate <= maxRate;
+                    }
+                    return issueMatch && genderMatch && langMatch && religionMatch && rateMatch;
+                });
+
+                // 2. Render Paginasi berdasarkan data terfilter
+                renderPagination(filteredData.length, itemsPerPage, currentPage);
+
+                // 3. Slice data untuk halaman saat ini
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
+
+                // 4. Render Terapis
+                renderTherapists(paginatedData);
+                activateModalListeners();
+            }
+
+            // --- EVENT LISTENERS ---
+            const allFilters = [issuesFilter, genderFilter, languageFilter, religionFilter, rateFilter];
+            allFilters.forEach(filter => filter.addEventListener('change', () => {
+                currentPage = 1;
+                updateDisplay();
+            }));
+
+            resetBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('filter-form').reset();
+                currentPage = 1;
+                updateDisplay();
+            });
+
+            paginationContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('.pagination-btn');
+                if (!target || target.classList.contains('disabled')) return;
+                
+                const page = target.dataset.page;
+                // Kita perlu tahu total halaman dari data yang terfilter saat ini untuk tombol next
+                const filteredData = allTherapists.filter(therapist => {
+                    const issueMatch = (issuesFilter.value === "All") || (therapist.expertise.includes(issuesFilter.value));
+                    const genderMatch = (genderFilter.value === "All") || (therapist.gender === genderFilter.value);
+                    // ... tambahkan filter lain jika ingin tombol next/prev lebih akurat di kondisi terfilter ...
+                    return issueMatch && genderMatch; // Contoh sederhana
+                });
+                const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+                
+                if (page === 'prev') { if (currentPage > 1) currentPage--; } 
+                else if (page === 'next') { if (currentPage < totalPages) currentPage++; } 
+                else { currentPage = parseInt(page); }
+                updateDisplay();
+            });
+            
+            hamburgerBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('-translate-x-full');
+                iconOpen.classList.toggle('hidden');
+                iconClose.classList.toggle('hidden');
+            });
+            
+            // --- INISIALISASI ---
+            populateFilters();
+            updateDisplay();
+        });
+    </script> -->
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- LANGKAH 1: KONEKSI KE SUPABASE ---
+            const SUPABASE_URL = 'https://ntksygwymvbtepnjoobo.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50a3N5Z3d5bXZidGVwbmpvb2JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5NDgxNzIsImV4cCI6MjA3NDUyNDE3Mn0._qADjEcZeBgBR0bbvy0AunB00BUHDOumTbjyilcdj4g';
+
+            // Periksa apakah Supabase sudah di-load
+            if (typeof Supabase === 'undefined') {
+                console.error('Supabase library is not loaded. Please check the script tag in your <head>.');
+                return;
+            }
+            const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log('Supabase client initialized');
+
+            // --- VARIABEL GLOBAL & STATE ---
+            let allTherapists = [];
+            let currentPage = 1;
+            const itemsPerPage = 5;
+
+            // --- SEMUA ELEMENT SELECTOR ---
+            const listContainer = document.getElementById('therapist-list-container');
+            const paginationContainer = document.getElementById('pagination-container');
+            const issuesFilter = document.getElementById('issues-filter');
+            const genderFilter = document.getElementById('gender-filter');
+            const languageFilter = document.getElementById('language-filter');
+            const religionFilter = document.getElementById('religion-filter');
+            const rateFilter = document.getElementById('rate-filter');
+            const resetBtn = document.getElementById('reset-btn');
+            const modal = document.getElementById('therapist-modal');
+            const modalContentWrapper = document.getElementById('modal-content-wrapper');
+            const modalContent = document.getElementById('modal-content');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-open');
+            const iconClose = document.getElementById('icon-close');
+            
+            // --- FUNGSI PENGAMBILAN DATA ---
+            async function fetchTherapists() {
+                console.log('Fetching therapists from Supabase...');
+                const { data, error } = await supabase
+                    .from('therapists')
+                    .select('*')
+                    .order('name', { ascending: true });
+
+                if (error) {
+                    console.error('Error fetching therapists:', error);
+                    listContainer.innerHTML = `<p class="text-center text-red-500 py-10">Failed to load therapist data. Please check the console for details.</p>`;
+                    return [];
+                }
+                console.log('Successfully fetched therapists:', data);
+                return data;
+            }
+
+            // --- FUNGSI UNTUK MENGISI FILTER SECARA DINAMIS ---
+            function populateFilters(therapists) {
+                const issues = [...new Set(therapists.flatMap(t => t.expertise))].sort();
+                const genders = ["All", "Male", "Female", "Non-binary"]; // Dibuat statis agar lengkap
+                const languages = [...new Set(therapists.flatMap(t => t.languages))].sort();
+                const religions = [...new Set(therapists.map(t => t.religion))].sort();
+
+                issuesFilter.innerHTML = '<option value="All">All Issues</option>' + issues.map(i => `<option value="${i}">${i}</option>`).join('');
+                genderFilter.innerHTML = genders.map(g => `<option value="${g}">${g === 'All' ? 'All Genders' : g}</option>`).join('');
+                languageFilter.innerHTML = '<option value="All">All Languages</option>' + languages.map(l => `<option value="${l}">${l}</option>`).join('');
+                religionFilter.innerHTML = '<option value="All">All Religions</option>' + religions.map(r => `<option value="${r}">${r}</option>`).join('');
+            }
+
+            // --- FUNGSI RENDER KARTU TERAPIS ---
+            function renderTherapists(therapistData) {
+                listContainer.innerHTML = '';
+                if (therapistData.length === 0) {
+                    listContainer.innerHTML = `<p class="text-center text-gray-500 py-10">No therapists found matching your criteria.</p>`;
+                    return;
+                }
+                therapistData.forEach(therapist => {
+                    const safeBio = therapist.bio ? therapist.bio.replace(/"/g, '&quot;') : '';
+                    const imageSrc = therapist.image_url || 'https://via.placeholder.com/100'; // Fallback image
+                    const cardHTML = `
+                    <div class="therapist-card bg-white rounded-2xl p-4 transition-all duration-300 hover:shadow-lg border-b md:border-none"
+                        data-name="${therapist.name}" data-title="${therapist.title}" data-image="${imageSrc}" data-bio="${safeBio}" data-expertise='${JSON.stringify(therapist.expertise)}'>
+                        <div class="md:hidden space-y-3">
+                            <div class="flex items-center gap-4"><img src="${imageSrc}" alt="${therapist.name}" class="w-16 h-16 rounded-full flex-shrink-0"><div class="text-left"><p class="font-bold text-gray-800">${therapist.name}</p><p class="text-sm text-gray-500">${therapist.title}</p><button class="open-bio mt-1 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="bio">Bio</button></div></div>
+                            <div class="text-left pt-3 border-t"><p class="font-bold text-gray-800">${therapist.expertise[0]}</p><p class="text-sm text-gray-500">${(therapist.expertise.slice(1, 3) || []).join(', ')}</p><button class="open-expertise mt-1 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="expertise">View All</button></div>
+                            <div class="text-left pt-3 border-t"><p class="font-bold text-gray-800">Rates</p><p class="text-gray-700">$${therapist.rate}/hour</p></div>
+                            <div class="flex gap-4 pt-3 border-t"><button class="w-full bg-gradient-to-r from-pink-500 to-rose-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Share</button><a href="booking.html" class="w-full"><button class="w-full bg-gradient-to-r from-sky-400 to-cyan-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Hire</button></a></div>
+                        </div>
+                        <div class="hidden md:grid md:grid-cols-[80px,1.5fr,1.5fr,1fr,1.5fr] gap-4 items-center text-center justify-items-center">
+                            <img src="${imageSrc}" alt="${therapist.name}" class="w-16 h-16 rounded-full">
+                            <div><p class="font-bold text-gray-800">${therapist.name}</p><p class="text-sm text-gray-500">${therapist.title}</p><button class="open-bio mt-2 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="bio">Bio</button></div>
+                            <div><p class="font-bold text-gray-800">${therapist.expertise[0]}</p><p class="text-sm text-gray-500">${(therapist.expertise.slice(1, 3) || []).join(', ')}</p><button class="open-expertise mt-2 bg-pink-100 text-pink-700 text-xs font-semibold px-3 py-1 rounded-full" data-type="expertise">View All</button></div>
+                            <p class="text-gray-700">$${therapist.rate}/hour</p>
+                            <div class="flex justify-center items-center gap-2"><button class="bg-gradient-to-r from-pink-500 to-rose-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Share</button><a href="booking.html"><button class="bg-gradient-to-r from-sky-400 to-cyan-400 text-white font-semibold py-2 px-4 rounded-full text-sm shadow-md hover:opacity-90">Hire</button></a></div>
+                        </div>
+                    </div>`;
+                listContainer.insertAdjacentHTML('beforeend', cardHTML);
+                });
+            }
+
+            // --- FUNGSI RENDER PAGINASI ---
+            function renderPagination(totalItems, itemsPerPage, currentPage) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                paginationContainer.innerHTML = '';
+                if (totalPages <= 1) return;
+                const createButton = (text, page, isDisabled = false, isActive = false) => `<button data-page="${page}" class="pagination-btn px-3 py-1 md:px-4 md:py-2 rounded-full text-sm md:text-base text-gray-600 border border-gray-300 hover:bg-gray-100 ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}">${text}</button>`;
+                paginationContainer.insertAdjacentHTML('beforeend', createButton('Prev', 'prev', currentPage === 1));
+                for (let i = 1; i <= totalPages; i++) { paginationContainer.insertAdjacentHTML('beforeend', createButton(i, i, false, currentPage === i)); }
+                paginationContainer.insertAdjacentHTML('beforeend', createButton('Next', 'next', currentPage === totalPages));
+            }
+
+            // --- LOGIKA MODAL ---
+            function activateModalListeners() {
+                const openModalButtons = document.querySelectorAll('.open-bio, .open-expertise');
+                openModalButtons.forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const type = event.currentTarget.dataset.type;
+                        const card = event.currentTarget.closest('.therapist-card');
+                        const name = card.dataset.name, title = card.dataset.title, image = card.dataset.image, bio = card.dataset.bio, expertise = JSON.parse(card.dataset.expertise);
+                        let contentHTML = '';
+                        if (type === 'bio') {
+                            contentHTML = `<div class="text-center"><img src="${image}" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white"><h3 class="text-2xl font-bold text-gray-800">${name}</h3><p class="text-gray-600">${title}</p><p class="mt-4 text-gray-700 text-left text-sm leading-relaxed">${bio}</p><div class="mt-6 flex justify-end"><button class="close-modal-btn border border-brand-pink text-brand-pink font-semibold px-8 py-2 rounded-full">Close</button></div></div>`;
+                        } else if (type === 'expertise') {
+                            const expertiseItems = expertise.map(item => `<li class="py-1">• ${item}</li>`).join('');
+                            contentHTML = `<div class="text-center"><h3 class="text-2xl font-bold text-gray-800 mb-6">Expertise of ${name}</h3><ul class="text-left space-y-1 text-gray-700 text-sm max-h-60 overflow-y-auto pr-4">${expertiseItems}</ul><div class="mt-6 flex justify-end"><button class="close-modal-btn border border-brand-pink text-brand-pink font-semibold px-8 py-2 rounded-full">Close</button></div></div>`;
+                        }
+                        modalContent.innerHTML = contentHTML;
+                        modal.classList.remove('hidden');
+                    });
+                });
+            }
+            
+            // Event listener untuk menutup modal
+            modal.addEventListener('click', (event) => {
+                if (!event.target.closest('#modal-content-wrapper') || event.target.closest('.close-modal-btn')) {
+                    modal.classList.add('hidden');
+                }
+            });
+
+            // --- FUNGSI UTAMA UNTUK UPDATE TAMPILAN ---
+            function updateDisplay(currentTherapistList) {
+                const selectedIssue = issuesFilter.value, selectedGender = genderFilter.value, selectedLang = languageFilter.value, selectedReligion = religionFilter.value, selectedRate = rateFilter.value.split('-');
+                const filteredData = currentTherapistList.filter(therapist => {
+                    const issueMatch = (selectedIssue === "All") || (therapist.expertise.includes(selectedIssue));
+                    const genderMatch = (selectedGender === "All") || (therapist.gender === selectedGender);
+                    const langMatch = (selectedLang === "All") || (therapist.languages.includes(selectedLang));
+                    const religionMatch = (selectedReligion === "All") || (therapist.religion === selectedReligion);
+                    let rateMatch = true;
+                    if (selectedRate[0] !== "All") {
+                        const minRate = parseInt(selectedRate[0]); const maxRate = parseInt(selectedRate[1]);
+                        rateMatch = therapist.rate >= minRate && therapist.rate <= maxRate;
+                    }
+                    return issueMatch && genderMatch && langMatch && religionMatch && rateMatch;
+                });
+                renderPagination(filteredData.length, itemsPerPage, currentPage);
+                const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+                renderTherapists(paginatedData);
+                activateModalListeners();
+            }
+
+            // --- INISIALISASI HALAMAN ---
+            async function initializePage() {
+                listContainer.innerHTML = `<p class="text-center text-gray-500 py-10">Loading therapists...</p>`;
+                
+                allTherapists = await fetchTherapists();
+                if (allTherapists.length > 0) {
+                    populateFilters(allTherapists);
+                    updateDisplay(allTherapists);
+
+                    // Pasang event listener setelah data siap
+                    const allFilters = [issuesFilter, genderFilter, languageFilter, religionFilter, rateFilter];
+                    allFilters.forEach(filter => filter.addEventListener('change', () => {
+                        currentPage = 1;
+                        updateDisplay(allTherapists);
+                    }));
+
+                    resetBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.getElementById('filter-form').reset();
+                        currentPage = 1;
+                        updateDisplay(allTherapists);
+                    });
+
+                    paginationContainer.addEventListener('click', (e) => {
+                        const target = e.target.closest('.pagination-btn');
+                        if (!target || target.classList.contains('disabled')) return;
+                        
+                        const page = target.dataset.page;
+                        // Hitung ulang totalPages berdasarkan data yang sudah terfilter saat ini
+                        // (Ini bisa dibuat lebih efisien, tapi untuk sekarang sudah cukup)
+                        const currentFilteredCount = allTherapists.filter(therapist => {
+                            const issueMatch = (issuesFilter.value === "All") || (therapist.expertise.includes(issuesFilter.value));
+                            const genderMatch = (genderFilter.value === "All") || (therapist.gender === genderFilter.value);
+                            // ... tambahkan filter lain
+                            return issueMatch && genderMatch;
+                        }).length;
+                        const totalPages = Math.ceil(currentFilteredCount / itemsPerPage);
+                        
+                        if (page === 'prev') { if (currentPage > 1) currentPage--; } 
+                        else if (page === 'next') { if (currentPage < totalPages) currentPage++; } 
+                        else { currentPage = parseInt(page); }
+                        updateDisplay(allTherapists);
+                    });
+                }
+            }
+            
+            // Event listener untuk menu mobile
+            hamburgerBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('-translate-x-full');
+                iconOpen.classList.toggle('hidden');
+                iconClose.classList.toggle('hidden');
+            });
+
+            // Mulai semuanya!
+            initializePage();
+        });
+    </script>
+</body>
+</html>
